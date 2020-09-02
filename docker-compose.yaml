@@ -1,0 +1,23 @@
+version: '3.3'
+
+networks:
+  my-network:
+    driver: bridge
+services:
+  openldap:
+    image: openldap-rp:0.1.2
+    container_name: openldap
+    ports:
+      - '389:389'
+      - '636:636'
+    environment:
+      LDAP_ORGANISATION: 'ReportPortal'
+      LDAP_DOMAIN: 'rp.com'
+      LDAP_ADMIN_PASSWORD: 'rpadminpass'
+    networks:
+      - my-network
+    volumes:
+      - 'openldap_data:/bitnami/openldap'
+volumes:
+  openldap_data:
+    driver: local
