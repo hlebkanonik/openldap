@@ -5,7 +5,7 @@ docker build . -t openldap-rp:0.1.2
 
 ## Step 2. Run service
 ```bash
-docker-compose -f up -d
+docker-compose up -d
 ```
 
 ## Step 3. Check 
