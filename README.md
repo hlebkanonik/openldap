@@ -17,3 +17,9 @@ ldapsearch -x -H ldap://localhost -b dc=rp,dc=com -D "cn=admin,dc=rp,dc=com" -w 
 ```bash
 docker exec openldap ldapsearch -x -H ldap://localhost -b dc=rp,dc=com -D "cn=admin,dc=rp,dc=com" -w rpadminpass
 ```
+
+## Configurate OPENLDAP plugin
+Insert into the ldap host field the internal ip of the container.
+```bash
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' openldap
+```
