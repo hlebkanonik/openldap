@@ -1,8 +1,8 @@
 version: '3.3'
 
 networks:
-  my-network:
-    driver: bridge
+  reportportal-default:
+    external: true
 services:
   openldap:
     image: openldap-rp:0.1.2
@@ -15,7 +15,7 @@ services:
       LDAP_DOMAIN: 'rp.com'
       LDAP_ADMIN_PASSWORD: 'rpadminpass'
     networks:
-      - my-network
+      - reportportal-default
     volumes:
       - 'openldap_data:/bitnami/openldap'
 volumes:
