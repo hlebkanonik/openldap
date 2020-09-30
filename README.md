@@ -7,7 +7,7 @@
 
 # Automatic Installation
 
-To install ReportPortal OPENLDAP and MYPHPLDAPADMIN use next commands:
+To install ReportPortal OPENLDAP and phpLDAPadmin use the following commands:
 ```bash
 cd openldap/
 chmod +x install.sh
