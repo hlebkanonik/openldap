@@ -38,6 +38,8 @@ Login as `superadmin` in ReportPortal URL and open `administrate/plugins/install
 3. Manager DN: `cn=admin,dc=rp,dc=com`
 4. Manager password: `rpadminpass`
 
+If LDAP users have problems logging into the Report Portal, deploy the application by `docker compose -p reportportal up -d --force-recreate`.
+
 ## Step 3. Login to phpLDAPadmin
 
 phpLDAPadmin is a web-based administration tool that simplifies the management of LDAP servers through an intuitive interface
