@@ -15,3 +15,12 @@ uid: tester
 userpassword: testerpassword
 mail: tester@rp.com
 description: toster
+
+dn: cn=ldaprpuser,ou=people,dc=rp,dc=com
+objectclass: inetOrgPerson
+cn: ldaprpuser
+sn: ldaprpuser
+uid: ldaprpuser
+userpassword: ldaprpuser_password
+mail: tester@rp.com
+description: rpuser

@@ -24,7 +24,7 @@ cd openldap
 ```
 3. Run Docker Compose to start the containers:
 ```bash
-docker compsoe -p reportportal up -d 
+docker compose -p reportportal up -d
 ```
 > This command will use the `docker-compose.yml` file in the current directory to set up and start the containers. The `-p reportportal` flag sets a custom project name for the Docker Compose stack, and the `-d` flag runs the containers in the background.
 
