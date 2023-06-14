@@ -22,5 +22,5 @@ cn: ldaprpuser
 sn: ldaprpuser
 uid: ldaprpuser
 userpassword: ldaprpuser_password
-mail: tester@rp.com
+mail: ldaprpuser@rp.com
 description: rpuser
