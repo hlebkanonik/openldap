@@ -1,87 +1,53 @@
-# Requirements
+# OpenLDAP for ReportPortal testing
 
-1. Docker v18+
-2. Docker Compose v1.18.0+
+This document provides a step-by-step guide on setting up OpenLDAP for local testing of ReportPortal. OpenLDAP is an open-source implementation of the Lightweight Directory Access Protocol (LDAP) that allows you to simulate a directory service locally. By using OpenLDAP, you can create and manage user accounts and groups, which are essential for testing user authentication and authorization in ReportPortal.
+
+
+## Prerequisites
+
+Before proceeding with the setup, ensure that you have the following prerequisites in place:
+
+1. Docker v23.0.5
+2. Docker Compose v2.17
 3. ReportPortal v5+
-4. ldap-utils
 
-# Automatic Installation
+Before deployment, you can change the default user in the `./assets/02-default-users.ldif` file.
 
-To install ReportPortal OPENLDAP and phpLDAPadmin use the following commands:
+## Deployment
+
+### Step 1. Deploy Docker Compose
+
+1. Clone the Git repository using the `git clone` command
+2. Navigate to the cloned repository's directory using the `cd` command 
 ```bash
-cd openldap/
-chmod +x install.sh
-./install.sh
+cd openldap
 ```
-
-# Manual installation
-
-## Step 1. Build the docker OPENLDAP image
-
+3. Run Docker Compose to start the containers:
 ```bash
-docker build . -t openldap-rp:0.1.2
+docker compsoe -p reportportal up -d 
 ```
+> This command will use the `docker-compose.yml` file in the current directory to set up and start the containers. The `-p reportportal` flag sets a custom project name for the Docker Compose stack, and the `-d` flag runs the containers in the background.
 
-## Step 2. Run container with OPENLDAP
 
-```bash
-docker-compose up -d
-```
-
-## Checks
-
-- Locally
-
-```bash
-ldapsearch -x -H ldap://localhost -b dc=rp,dc=com -D "cn=admin,dc=rp,dc=com" -w rpadminpass
-```
-
-- With Docker
-
-```bash
-docker exec openldap ldapsearch -x -H ldap://localhost -b dc=rp,dc=com -D "cn=admin,dc=rp,dc=com" -w rpadminpass
-```
-
-## Step 3. Configure OPEN LDAP plugin in ReportPortal
+## Step 2. Configure OPEN LDAP plugin in ReportPortal
 
 Login as `superadmin` in ReportPortal URL and open `administrate/plugins/installed`, choose OPNLDAP plugin. 
 
-Settings list:
-
-1. URL
-
-```bash
-OPENLDAP_HOST=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' openldap)
-echo $OPENLDAP_HOST:389
-```
-
+1. Url: `openladp:389`
 2. Base DN: `dc=rp,dc=com`
 3. Manager DN: `cn=admin,dc=rp,dc=com`
 4. Manager password: `rpadminpass`
 
-All settings from docker-compose/environment
+## Step 3. Login to phpLDAPadmin
 
-## Step 4. Configure PHPLDAPADMIN
-Environment variable:
-
-```bash
-OPENLDAP_HOST=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' openldap)
-```
-
-Create PHPLDAPADMIN container:
-
-```bash
-docker run -p 6443:443 --name phpldapadmin-service \
-           --hostname phpldapadmin-service --link openldap --env PHPLDAPADMIN_LDAP_HOSTS=$OPENLDAP_HOST \
-           --network=reportportal-default --detach osixia/phpldapadmin:0.9.0
-```
+phpLDAPadmin is a web-based administration tool that simplifies the management of LDAP servers through an intuitive interface
 
 Open in browser `https://localhost:6443` and login:
 
 1. Login DN: `cn=admin,dc=rp,dc=com`
 2. Password: `rpadminpass`
 
-## Step 5. Removal
+## Step 4. Removal
 
 ```bash
 docker stop phpldapadmin-service openldap && docker rm phpldapadmin-service openldap
