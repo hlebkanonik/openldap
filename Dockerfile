@@ -1,3 +1,3 @@
-FROM osixia/openldap:1.5.0
+FROM osixia/openldap:latest
 LABEL maintainer="hleb_kanonik@epam.com"
 COPY ./assets/ /container/service/slapd/assets/config/bootstrap/ldif/

@@ -5,52 +5,42 @@ This document provides a step-by-step guide on setting up OpenLDAP for local tes
 
 ## Prerequisites
 
-Before proceeding with the setup, ensure that you have the following prerequisites in place:
+Tested on:
+1. Docker 25.0.0
+2. Docker Compose 2.24.2
 
-1. Docker v23.0.5
-2. Docker Compose v2.17
-3. ReportPortal v5+
-
-Before deployment, you can change the default user in the `./assets/02-default-users.ldif` file.
+Before deployment, you have to change the default user in the `./assets/02-default-users.ldif` file.
 
 ## Deployment
 
-### Step 1. Deploy Docker Compose
+### Deploy with Docker Compose
 
-1. Clone the Git repository using the `git clone` command
-2. Navigate to the cloned repository's directory using the `cd` command 
+1. Run Docker Compose to start the containers:
 ```bash
-cd openldap
+docker compose up -p reportportal -d
 ```
-3. Run Docker Compose to start the containers:
-```bash
-docker compose -p reportportal up -d
-```
-> This command will use the `docker-compose.yml` file in the current directory to set up and start the containers. The `-p reportportal` flag sets a custom project name for the Docker Compose stack, and the `-d` flag runs the containers in the background.
 
+## Configure OPEN LDAP plugin in ReportPortal
 
-## Step 2. Configure OPEN LDAP plugin in ReportPortal
-
-Login as `superadmin` in ReportPortal URL and open `administrate/plugins/installed`, choose OPNLDAP plugin. 
+Login as `superadmin` in ReportPortal and open `administrate` -> `plugins` -> `installed`, choose OPNLDAP plugin. 
 
 1. Url: `openladp:389`
-2. Base DN: `dc=rp,dc=com`
-3. Manager DN: `cn=admin,dc=rp,dc=com`
+2. Base DN: `dc=reportportal,dc=io`
+3. Manager DN: `cn=admin,dc=reportportal,dc=io`
 4. Manager password: `rpadminpass`
 
-If LDAP users have problems logging into the Report Portal, deploy the application by `docker compose -p reportportal up -d --force-recreate`.
-
-## Step 3. Login to phpLDAPadmin
+## Login to phpLDAPadmin
 
 phpLDAPadmin is a web-based administration tool that simplifies the management of LDAP servers through an intuitive interface
 
-Open in browser `https://localhost:6443` and login:
+Open in browser `http://localhost:8081` and login:
 
-1. Login DN: `cn=admin,dc=rp,dc=com`
+1. Login DN: `cn=admin,dc=reportportal,dc=io`
 2. Password: `rpadminpass`
 
-## Step 4. Removal
+## Uninstalling Docker Compose
 
 ```bash
-docker stop phpldapadmin-service openldap && docker rm phpldapadmin-service openldap
+docker compose down && docker volume rm openldap_openldap_data
 ```
+

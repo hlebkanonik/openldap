@@ -4,12 +4,13 @@ services:
   phpldapadmin:
     image: osixia/phpldapadmin:0.9.0
     ports:
-      - 6443:443
+      - 8081:80
     links:
       - openldap
     container_name: phpldapadmin-service
     environment:
-       PHPLDAPADMIN_LDAP_HOSTS: openldap
+      PHPLDAPADMIN_LDAP_HOSTS: openldap
+      PHPLDAPADMIN_HTTPS: "false"
     # networks:
     #   - reportportal_default
 
@@ -21,7 +22,7 @@ services:
       - 636:636
     environment:
       LDAP_ORGANISATION: 'ReportPortal'
-      LDAP_DOMAIN: 'rp.com'
+      LDAP_DOMAIN: 'reportportal.io'
       LDAP_ADMIN_PASSWORD: 'rpadminpass'
     # networks:
     #   - reportportal_default

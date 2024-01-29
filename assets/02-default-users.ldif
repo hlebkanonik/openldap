@@ -1,26 +1,45 @@
-dn: cn=user,ou=people,dc=rp,dc=com
+
+dn: cn=team,ou=people,dc=reportportal,dc=io
+objectClass: posixGroup
+cn: team
+gidNumber: 501
+
+dn: cn=user,ou=people,dc=reportportal,dc=io
 objectclass: inetOrgPerson
 cn: user
 sn: user
 uid: user
 userpassword: user123
-mail: user@rp.com
-description: kek user
+mail: user@reportportal.io
+description: test user 0
 
-dn: cn=tester,ou=people,dc=rp,dc=com
+dn: cn=tester,ou=people,dc=reportportal,dc=io
 objectclass: inetOrgPerson
 cn: tester
 sn: tester
 uid: tester
 userpassword: testerpassword
-mail: tester@rp.com
-description: toster
+mail: tester@reportportal.io
+description: test user 1
 
-dn: cn=ldaprpuser,ou=people,dc=rp,dc=com
+dn: cn=ldaprpuser,ou=people,dc=reportportal,dc=io
 objectclass: inetOrgPerson
 cn: ldaprpuser
 sn: ldaprpuser
 uid: ldaprpuser
 userpassword: ldaprpuser_password
-mail: ldaprpuser@rp.com
-description: rpuser
+mail: ldaprpuser@reportportal.io
+description: test user 2
+
+dn: uid=user1,ou=people,dc=reportportal,dc=io
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: user1
+cn: User One
+sn: One
+# pbkdf2pass
+userPassword: {PBKDF2-SHA512}10000$Oz4JmQXZ5pv0M55QJUi4KA$gM9vqXlMXEJEwxegXyHl8Hzk.AR6OstJVYXl9JRizeBGAcV7i94aQL3itPNFbC8fvWl6GueON1PDhJ8SrS1Hlw
+mail: user1@reportportal.io
+

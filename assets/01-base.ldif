@@ -1,4 +1,4 @@
-dn: ou=people, dc=rp,dc=com
+dn: ou=people, dc=reportportal,dc=io
 ou: people
 description: All people in organisation
 objectclass: organizationalunit
