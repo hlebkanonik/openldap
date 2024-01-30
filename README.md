@@ -17,7 +17,7 @@ Before deployment, you have to change the default user in the `./assets/02-defau
 
 1. Run Docker Compose to start the containers:
 ```bash
-docker compose up -p reportportal -d
+docker compose -p reportportal up -d
 ```
 
 ## Configure OPEN LDAP plugin in ReportPortal
