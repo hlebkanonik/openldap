@@ -39,7 +39,6 @@ objectClass: inetOrgPerson
 uid: user1
 cn: User One
 sn: One
-# pbkdf2pass
-userPassword: {PBKDF2-SHA512}10000$Oz4JmQXZ5pv0M55QJUi4KA$gM9vqXlMXEJEwxegXyHl8Hzk.AR6OstJVYXl9JRizeBGAcV7i94aQL3itPNFbC8fvWl6GueON1PDhJ8SrS1Hlw
+# user1
+userPassword: {PBKDF2-SHA512}10000$Q.e2xg.gXQn9HUOtw6UW1A$p2AxjBpVkq1YDat2Z8ppH5oeMxTFlXfovgo./TtdimMeGKM/76BwQXJLq5/4HsR4u8rAgfs.muU9cenmXCZMlw
 mail: user1@reportportal.io
-

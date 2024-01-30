@@ -43,4 +43,3 @@ Open in browser `http://localhost:8081` and login:
 ```bash
 docker compose down && docker volume rm openldap_openldap_data
 ```
-
