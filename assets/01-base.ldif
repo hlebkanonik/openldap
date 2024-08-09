@@ -1,4 +1,0 @@
-dn: ou=people, dc=rp,dc=com
-ou: people
-description: All people in organisation
-objectclass: organizationalunit

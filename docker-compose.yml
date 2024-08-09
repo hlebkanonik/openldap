@@ -1,37 +1,32 @@
-version: '3.3'
-
 services:
   phpldapadmin:
     image: osixia/phpldapadmin:0.9.0
+    container_name: phpldapadmin
     ports:
-      - 6443:443
+      - '6443:443'
     links:
       - openldap
-    container_name: phpldapadmin-service
     environment:
        PHPLDAPADMIN_LDAP_HOSTS: openldap
-    # networks:
-    #   - reportportal_default
 
   openldap:
     build: .
     container_name: openldap
     ports:
-      - 389:389
-      - 636:636
+      - '389:389'
     environment:
-      LDAP_ORGANISATION: 'ReportPortal'
-      LDAP_DOMAIN: 'rp.com'
-      LDAP_ADMIN_PASSWORD: 'rpadminpass'
-    # networks:
-    #   - reportportal_default
+      - LDAP_PORT_NUMBER=389
+      - LDAP_ALLOW_ANON_BINDING=no
+      - LDAP_ROOT=dc=example,dc=com
+      - LDAP_ADMIN_USERNAME=admin
+      - LDAP_ADMIN_PASSWORD=mypassword123
+      - LDAP_ADMIN_DN=cn=admin,dc=example,dc=com
+      - LDAP_USERS=alice,bob
+      - LDAP_PASSWORDS=alice123,bob123
+      - LDAP_EXTRA_SCHEMAS=cosine,inetorgperson,nis,pbkdf2
     volumes:
-      - openldap_data:/bitnami/openldap
+      - 'openldap_data:/bitnami/openldap'
 
 volumes:
   openldap_data:
     driver: local
-
-# networks:
-#   reportportal_default:
-#     external: true
