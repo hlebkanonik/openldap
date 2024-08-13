@@ -48,7 +48,9 @@ PBKDF2_PSW=$(docker exec openldap slappasswd -o module-load=/opt/bitnami/openlda
 echo "Your password is: ${PBKDF2_PSW}"
 ```
 
-1. Modife user password with encrypted password:
+Encription algoritm can be changed by changing the `-h` parameter. For example, to use `PBKDF2-SHA512` algorithm, replace `-h {PBKDF2-SHA256}` with `-h {PBKDF2-SHA512}`.
+
+2. Modife user password with encrypted password:
 
 ```bash
 cat <<EOF > /tmp/mod_user.ldif
