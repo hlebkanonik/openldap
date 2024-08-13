@@ -29,8 +29,8 @@ To integrate OpenLDAP with ReportPortal, follow these steps:
    - Url: `ldap://openladp:389`
    - Base DN: `dc=example,dc=com`
    - Manager DN: `cn=admin,dc=example,dc=com`
-   - Manager passwordL `mypassword123`
-   - Search filter: `uid={0}`
+   - Manager password: `mypassword123`
+   - User search filter: `uid={0}`
    - Password encoder type: `NO`
    - Email attribute: `mail`
    - Full name attribute: `cn`
