@@ -35,7 +35,7 @@ To integrate OpenLDAP with ReportPortal, follow these steps:
    - Email attribute: `mail`
    - Full name attribute: `cn`
    - Photo attribute: `photo`
-5. Add email to user
+5. Add email for the users in OpenLDAP. Use the following LDIF content:
 
    ```bash
    cat <<EOF > /tmp/mod_user.ldif
