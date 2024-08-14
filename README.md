@@ -26,7 +26,7 @@ To integrate OpenLDAP with ReportPortal, follow these steps:
 2. Click on **Superadmin** icon in the left sidebar.
 3. Open **Plugins** and click on the **Installed** tab.
 4. Select **LDAP** plugin and fill in the following details:
-   - Url: `ldap://openladp:389`
+   - Url[^1]: `ldap://openldap:389`
    - Base DN: `dc=example,dc=com`
    - Manager DN: `cn=admin,dc=example,dc=com`
    - Manager password: `mypassword123`
@@ -35,9 +35,35 @@ To integrate OpenLDAP with ReportPortal, follow these steps:
    - Email attribute: `mail`
    - Full name attribute: `cn`
    - Photo attribute: `photo`
-5. Exit from Reportportal and Login back with the LDAP user credentials.
+5. Add email to user
 
-## PBKDF2-SHA256 encryption configuration
+   ```bash
+   cat <<EOF > /tmp/mod_user.ldif
+   dn: cn=bob,ou=users,dc=example,dc=com
+   changetype: modify
+   replace: mail
+   mail: bob.newemail@example.com
+
+   dn: cn=alice,ou=users,dc=example,dc=com
+   changetype: modify
+   replace: mail
+   mail: alice.newemail@example.com
+   EOF
+
+   docker cp /tmp/mod_user.ldif openldap:/tmp/mod_user.ldif
+   ```
+
+6. Apply the changes:
+
+   ```bash
+   docker exec openldap ldapmodify -x -D "cn=admin,dc=example,dc=com" -w mypassword123 -H ldap://localhost -f /tmp/mod_user.ldif
+   ```
+
+7. Exit from Reportportal and Login back with the LDAP user credentials.
+
+[^1] 'openldap' is the name of the OpenLDAP service in the Docker Compose file or VM IP/DNS name where OpenLDAP is running.
+
+## PBKDF2 encryption configuration
 
 To enable password encryption, follwo these steps:
 
