@@ -7,7 +7,7 @@ This document provides a step-by-step guide on setting up OpenLDAP for local tes
 Before proceeding with the setup, ensure that the following prerequisites are met:
 
 1. Docker 20.10 or higher
-2. Docker Compose 1.27.4 or higher
+2. Docker Compose V2 (the `docker compose` plugin)
 3. ReportPortal v5 or higher
 
 ## Deployment
@@ -15,18 +15,18 @@ Before proceeding with the setup, ensure that the following prerequisites are me
 To deploy OpenLDAP, execute the following command with Docker Compose:
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 ## ReportPortal Integration
 
 To integrate OpenLDAP with ReportPortal, follow these steps:
 
-1. Login as `superadmin` to ReportPortal.
-2. Click on **Superadmin** icon in the left sidebar.
+1. Log in as `superadmin` to ReportPortal.
+2. Click on the **Superadmin** icon in the left sidebar.
 3. Open **Plugins** and click on the **Installed** tab.
-4. Select **LDAP** plugin and fill in the following details:
-   - Url[^1]: `ldap://openldap:389`
+4. Select the **LDAP** plugin and fill in the following details:
+   - URL[^1]: `ldap://openldap:389`
    - Base DN: `dc=example,dc=com`
    - Manager DN: `cn=admin,dc=example,dc=com`
    - Manager password: `mypassword123`
@@ -35,7 +35,7 @@ To integrate OpenLDAP with ReportPortal, follow these steps:
    - Email attribute: `mail`
    - Full name attribute: `cn`
    - Photo attribute: `photo`
-5. Add email for the users in OpenLDAP. Use the following LDIF content:
+5. Add email addresses for the users in OpenLDAP. Use the following LDIF content:
 
    ```bash
    cat <<EOF > /tmp/mod_user.ldif
@@ -59,13 +59,13 @@ To integrate OpenLDAP with ReportPortal, follow these steps:
    docker exec openldap ldapmodify -x -D "cn=admin,dc=example,dc=com" -w mypassword123 -H ldap://localhost -f /tmp/mod_user.ldif
    ```
 
-7. Exit from Reportportal and Login back with the LDAP user credentials.
+7. Log out of ReportPortal and log back in with the LDAP user credentials (`alice` / `alice123` or `bob` / `bob123`).
 
-[^1] 'openldap' is the name of the OpenLDAP service in the Docker Compose file or VM IP/DNS name where OpenLDAP is running.
+[^1]: `openldap` is the name of the OpenLDAP service in the Docker Compose file, or the VM IP/DNS name where OpenLDAP is running.
 
 ## PBKDF2 encryption configuration
 
-To enable password encryption, follwo these steps:
+To enable password encryption, follow these steps:
 
 1. Get the encrypted password by running the following command:
 
@@ -74,9 +74,9 @@ PBKDF2_PSW=$(docker exec openldap slappasswd -o module-load=/opt/bitnami/openlda
 echo "Your password is: ${PBKDF2_PSW}"
 ```
 
-Encription algoritm can be changed by changing the `-h` parameter. For example, to use `PBKDF2-SHA512` algorithm, replace `-h {PBKDF2-SHA256}` with `-h {PBKDF2-SHA512}`.
+The encryption algorithm can be changed by changing the `-h` parameter. For example, to use the `PBKDF2-SHA512` algorithm, replace `-h {PBKDF2-SHA256}` with `-h {PBKDF2-SHA512}`.
 
-2. Modife user password with encrypted password:
+2. Modify the user password with the encrypted password:
 
 ```bash
 cat <<EOF > /tmp/mod_user.ldif
@@ -95,13 +95,15 @@ docker cp /tmp/mod_user.ldif openldap:/tmp/mod_user.ldif
 docker exec openldap ldapmodify -x -D "cn=admin,dc=example,dc=com" -w mypassword123 -H ldap://localhost -f /tmp/mod_user.ldif
 ```
 
-4. Verify the changes:
+4. In ReportPortal, set **Password encoder type** to `PBKDF2` in the LDAP plugin settings.
+
+5. Verify the changes:
 
 ```bash
 docker exec openldap ldapwhoami -vvv -D cn=alice,ou=users,dc=example,dc=com -x -w 'mypassword'
 ```
 
-Reponces should be like this:
+The response should look like this:
 
 ```bash
 ldap_initialize( <DEFAULT> )
